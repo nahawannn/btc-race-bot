@@ -24,6 +24,14 @@
 //   dev gate (PnL > $0) on that one window only. This bot is a free
 //   lottery ticket for a down/sideways race window, NOT a demonstrated edge.
 //   Do not expect it to win; enter only because entry is free.
+//
+//   Rebuilt 18 Nov 2026 22:31 WIB (15:31 UTC), after this race opened
+//   (14:44 UTC), for btc-race-24h-20261118-1444.
+//   Dev grade on THIS race's kit (dev window 17 Nov 14:44 -> 18 Nov 14:44 UTC,
+//   1,440 bars; falling window, buy-and-hold -$31.63): net PnL $0.00, 0 trades.
+//   The uptrend filter (SMA-30 > SMA-120) never triggered, so the bot sent no
+//   orders at all -- it cannot race and cannot win; this entry is dev-board only.
+//   Logic unchanged: only this header comment was updated in the rebuild.
 
 import { BPS, runBars, type BarsState, type BuyInput, type SellInput } from './vendor/makefun-bars.ts';
 
