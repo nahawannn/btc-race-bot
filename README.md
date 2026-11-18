@@ -13,11 +13,12 @@ atau order sell saat sinyal exit. Order dieksekusi di open bar berikutnya.
 Tanpa network, tanpa jam dinding, tanpa random: bar yang sama selalu
 menghasilkan orders yang sama.
 
-Aturan:
-- Entry (saat flat): close turun ≥0,8% di bawah SMA-30, DAN SMA-30 di atas
-  SMA-120 (filter tren naik). Full size ($1.000 paper), long only.
+Aturan (varian #1 — pemenang grid search, menggantikan bot SMA):
+- Entry (saat flat): close turun ≥0,8% di bawah EMA-13, TANPA filter tren.
+  EMA-13: seed = SMA 13 close pertama jendela, k = 2/14, rekursi standar.
+  Full size ($1.000 paper), long only.
 - Exit (saat pegang posisi): take-profit +1,2% dari cost, ATAU stop-loss
-  −1,2% dari cost, ATAU time stop setelah 240 bar.
+  −0,8% dari cost, ATAU time stop setelah 480 bar.
 - Tiap order dibatasi max slippage 100 bps.
 
 Hasil jujur:
@@ -27,9 +28,14 @@ Hasil jujur:
   cash saat BTC turun. Di 31 jendela naik, bot kalah dari buy-and-hold 100%.
   Tidak ada edge positif yang terbukti.
 - Dev window kit race ini (17 Nov 14:44 → 18 Nov 14:44 UTC, 1.440 bar,
-  jendela turun, buy-and-hold −$31,63): net PnL $0,00, 0 trade — filter
-  tren tidak pernah terpicu, jadi bot tidak mengirim order sama sekali.
-  Entry ini dev-board saja: tidak balapan, tidak dapat hadiah.
+  jendela turun, buy-and-hold −$31,63): varian ini net PnL +$10,45,
+  2 trade, 1 round trip, guardrails terpenuhi — LOLOS gate dev
+  (PnL > $0), jadi entry ini BALAPAN. Trade-nya: diputuskan bar 65,
+  terisi bar 66, TP kena bar 407, +$10,45, dipegang 341 bar, DD $15,11.
+  Catatan jujur: ini menunggangi SATU pantulan di jendela dev yang beku,
+  bukan edge umum yang terbukti. Bot SMA sebelumnya (0 trade, $0,00) dan
+  varian EMA-13/21 berfilter (0 trade, $0,00) sama-sama gagal di gate
+  yang sama; yang membuat varian ini trade adalah dihapusnya filter tren.
 
 Refactor 18 Nov 2026 (~22:45 WIB, sesi setelah pembukaan): main.ts
 dirapikan agar mudah dibaca (nama konstanta deskriptif, entry/exit
